@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Pyodide 0.27.3 Demo</title>
+</head>
+<body>
+<pre id="output"></pre>
+
+<script src="pyodide/pyodide.js"></script>
+
+<script>
+function logMessage(msg) {
+  document.getElementById("output").textContent += msg + "\n";
+}
+
+async function main() {
+  logMessage("Loading Pyodide...");
+
+  let pyodide = await loadPyodide({
+    indexURL: "pyodide"
+  });
+  logMessage("Pyodide loaded!");
+
+  let scriptText = await (await fetch("luminance.py")).text();
+  logMessage("luminance.py fetched. Now executing...");
+
+  pyodide.runPython(scriptText);
+  logMessage("luminance.py executed successfully!");
+}
+
+main();
+</script>
+</body>
+</html>
